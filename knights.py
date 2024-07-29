@@ -24,6 +24,9 @@ class array(MovingCameraScene):
         # Three proof
         #self.threeProof(fields)
 
+        # Four proof
+        #self.fourProof(fields)
+
         # # Shows all board states (Probably final section just for satisfaction)
         # currentField = fields[0]
 
