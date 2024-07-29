@@ -221,6 +221,7 @@ class array(MovingCameraScene):
         self.wait()
         self.play(FadeOut(knight3), FadeOut(attacks3))
         self.wait()
+        self.clear()
     
     def fourProof(self, fields):
         # Four proof
@@ -246,3 +247,86 @@ class array(MovingCameraScene):
         self.play(FadeIn(knight3), FadeIn(attacks3))
         self.play(FadeIn(knight4), FadeIn(attacks4))
         self.wait()
+        self.clear()
+
+    def fiveProof(self, fields):
+        # Show contradiction statement, we assume we can do it in 4 knights
+        # If that is the case then 4 knights have to cover 25 squares, meaning on average
+        # a knight has to cover 6.25 squares.
+        self.play(DrawBorderThenFill(fields[2]))
+        self.wait()
+        heatMap1 = [3,4,5,4,3,
+                      4,5,7,5,4,
+                      5,7,9,7,5,
+                      4,5,7,5,4,
+                      3,4,5,4,3]
+        heatMap1Group = VGroup()
+        for i, num in enumerate(heatMap1):
+            heatMap1Group.add(Integer(number=num).set_color(YELLOW).move_to(fields[2][i].get_center()))
+
+        self.play(FadeIn(heatMap1Group))
+
+        # Show with LaTeX that we need to use the 9 square because
+        # 7+7+5+5 < 25 and we cannot do 3 7's because they interfere with each other
+
+        # Show 9 square taken
+        knight = SVGMobject('WKnight.svg').scale(0.5).move_to(fields[2][11].get_center())
+        attacks = VGroup()
+        attacks.add(self.getAttacks(11, 5, fields[2]))
+
+        # Update heatmap
+        heatMap2 = [3,3,5,3,3,
+                    3,5,7,5,3,
+                    5,7,0,7,5,
+                    3,5,7,5,3,
+                    3,3,5,3,3]
+        heatMap2Group = VGroup()
+        for i, num in enumerate(heatMap2):
+            if num:
+                heatMap2Group.add(Integer(number=num).set_color(YELLOW).move_to(fields[2][i].get_center()))
+        self.play(FadeIn(knight), FadeIn(attacks), Transform(heatMap1Group, heatMap2Group))
+
+        # Show we have to use a 7 square because 9+5+5+5 < 25
+
+        allGroup = VGroup()
+        allGroup.add(heatMap1Group, knight, attacks)
+        self.play(Rotate(allGroup, angle=2*PI))
+
+        # Update heatmap
+        heatMap3 = [1,1,1,2,3,
+                    1,3,5,1,0,
+                    2,None,None,5,3,
+                    1,3,5,1,0,
+                    1,1,1,2,3]
+        heatMap3Group = VGroup()
+        for i, num in enumerate(heatMap3):
+            if num != None:
+                heatMap2Group.add(Integer(number=num).set_color(YELLOW).move_to(fields[2][i].get_center()))
+
+        knight2 = SVGMobject('WKnight.svg').scale(0.5).move_to(fields[2][10].get_center())
+        attacks.add(self.getAttacks(10, 5, fields[2]))
+
+        self.play(FadeIn(knight2), FadeIn(attacks), Transform(heatMap1Group, heatMap3Group))
+
+        # Show now we need to cover 9 squares with 2 knights, which can only be done with 2 5 squares
+        # However it is impossible to have two 5 square knights because they overlap each other
+        # Therefore we need 5 knights to cover a 5x5 board
+
+        self.clear()
+
+    def sixProof(self, fields):
+        self.play(DrawBorderThenFill(fields[3]))
+        AGroup = VGroup()
+        BGroup = VGroup()
+        letters = ['A','B','A','B','A','B',
+                   None, None, None, None, None,
+                   None, None, None, None, None,
+                   None, None, None, None, None,
+                   None, None, None, None, None,
+                   'B','A','B','A','B','A']
+        for index, letter in enumerate(letters):
+            if letter == 'A':
+                AGroup.add(Text(letter).set_color(YELLOW).move_to(fields[3][index].get_center()))
+            if letter == 'B':
+                BGroup.add(Text(letter).set_color(YELLOW).move_to(fields[3][index].get_center()))
+                
