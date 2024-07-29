@@ -316,17 +316,183 @@ class array(MovingCameraScene):
 
     def sixProof(self, fields):
         self.play(DrawBorderThenFill(fields[3]))
+        knight = SVGMobject('WKnight.svg').scale(0.5).move_to(fields[3][13].get_center())
+        knight2 = SVGMobject('WKnight.svg').scale(0.5).move_to(fields[3][14].get_center())
+        knight3 = SVGMobject('WKnight.svg').scale(0.5).move_to(fields[3][15].get_center())
+        knight4 = SVGMobject('WKnight.svg').scale(0.5).move_to(fields[3][16].get_center())
+        knight5 = SVGMobject('WKnight.svg').scale(0.5).move_to(fields[3][19].get_center())
+        knight6 = SVGMobject('WKnight.svg').scale(0.5).move_to(fields[3][20].get_center())
+        knight7 = SVGMobject('WKnight.svg').scale(0.5).move_to(fields[3][21].get_center())
+        knight8 = SVGMobject('WKnight.svg').scale(0.5).move_to(fields[3][22].get_center())
+        attacks1 = VGroup()
+        attacks2 = VGroup()
+        attacks3 = VGroup()
+        attacks4 = VGroup()
+        attacks5 = VGroup()
+        attacks6 = VGroup()
+        attacks7 = VGroup()
+        attacks8 = VGroup()
+        attacks1.add(self.getAttacks(13, 6, fields[3]))
+        attacks2.add(self.getAttacks(14, 6, fields[3]))
+        attacks3.add(self.getAttacks(15, 6, fields[3]))
+        attacks4.add(self.getAttacks(16, 6, fields[3]))
+        attacks5.add(self.getAttacks(19, 6, fields[3]))
+        attacks6.add(self.getAttacks(20, 6, fields[3]))
+        attacks7.add(self.getAttacks(21, 6, fields[3]))
+        attacks8.add(self.getAttacks(22, 6, fields[3]))
         AGroup = VGroup()
         BGroup = VGroup()
+        CGroup = VGroup()
+        DGroup = VGroup()
         letters = ['A','B','A','B','A','B',
                    None, None, None, None, None,
                    None, None, None, None, None,
                    None, None, None, None, None,
                    None, None, None, None, None,
-                   'B','A','B','A','B','A']
+                   'D','C','D','C','D','C']
         for index, letter in enumerate(letters):
             if letter == 'A':
                 AGroup.add(Text(letter).set_color(YELLOW).move_to(fields[3][index].get_center()))
             if letter == 'B':
                 BGroup.add(Text(letter).set_color(YELLOW).move_to(fields[3][index].get_center()))
-                
+            if letter == 'C':
+                CGroup.add(Text(letter).set_color(YELLOW).move_to(fields[3][index].get_center()))
+            if letter == 'D':
+                DGroup.add(Text(letter).set_color(YELLOW).move_to(fields[3][index].get_center()))
+            
+        # Move knight around to show that a knight cannot touch both A and B
+
+        # Show that no knight can cover more than 2 of the positions A or B
+
+        # Show knight range is only 2 units around it so it cannot touch both ends
+
+        # Show same stuff as before but with C and D
+
+        # Final board
+        
+    def sevenProof(self, fields):
+        self.play(DrawBorderThenFill(fields[4]))
+        knight = SVGMobject('WKnight.svg').scale(0.5).move_to(fields[4][15].get_center())
+        knight2 = SVGMobject('WKnight.svg').scale(0.5).move_to(fields[4][16].get_center())
+        knight3 = SVGMobject('WKnight.svg').scale(0.5).move_to(fields[4][17].get_center())
+        knight4 = SVGMobject('WKnight.svg').scale(0.5).move_to(fields[4][18].get_center())
+        knight5 = SVGMobject('WKnight.svg').scale(0.5).move_to(fields[4][19].get_center())
+        knight6 = SVGMobject('WKnight.svg').scale(0.5).move_to(fields[4][29].get_center())
+        knight7 = SVGMobject('WKnight.svg').scale(0.5).move_to(fields[4][30].get_center())
+        knight8 = SVGMobject('WKnight.svg').scale(0.5).move_to(fields[4][31].get_center())
+        knight9 = SVGMobject('WKnight.svg').scale(0.5).move_to(fields[4][32].get_center())
+        knight10 = SVGMobject('WKnight.svg').scale(0.5).move_to(fields[4][33].get_center())
+        attacks1 = VGroup()
+        attacks2 = VGroup()
+        attacks3 = VGroup()
+        attacks4 = VGroup()
+        attacks5 = VGroup()
+        attacks6 = VGroup()
+        attacks7 = VGroup()
+        attacks8 = VGroup()
+        attacks9 = VGroup()
+        attacks10 = VGroup()
+        attacks1.add(self.getAttacks(15, 7, fields[4]))
+        attacks2.add(self.getAttacks(16, 7, fields[4]))
+        attacks3.add(self.getAttacks(17, 7, fields[4]))
+        attacks4.add(self.getAttacks(18, 7, fields[4]))
+        attacks5.add(self.getAttacks(19, 7, fields[4]))
+        attacks6.add(self.getAttacks(29, 7, fields[4]))
+        attacks7.add(self.getAttacks(30, 7, fields[4]))
+        attacks8.add(self.getAttacks(31, 7, fields[4]))
+        attacks9.add(self.getAttacks(32, 7, fields[4]))
+        attacks10.add(self.getAttacks(33, 7, fields[4]))
+        AGroup = VGroup()
+        letters = ['A', 'A', None, None, None, None, 'A',
+                   None, 'A', None, None, None, None, 'A',
+                   None, None, None, None, None, None, None,
+                   None, None, None, None, None, None, None,
+                   None, None, None, None, None, None, None,
+                   'A', None, None, None, None, 'A', None,
+                   'A', None, None, None, None, 'A', 'A']
+        
+        for index, letter in enumerate(letters):
+            if letter == 'A':
+                AGroup.add(Text(letter).set_color(YELLOW).move_to(fields[4][index].get_center()))
+        self.play(FadeIn(AGroup()))
+        # Show no knight can cover any of these spots
+
+        # Final Board
+        self.play(FadeIn(knight), FadeIn(attacks1))
+        self.play(FadeIn(knight2), FadeIn(attacks2))
+        self.play(FadeIn(knight3), FadeIn(attacks3))
+        self.play(FadeIn(knight4), FadeIn(attacks4))
+        self.play(FadeIn(knight5), FadeIn(attacks5))
+        self.play(FadeIn(knight6), FadeIn(attacks6))
+        self.play(FadeIn(knight7), FadeIn(attacks7))
+        self.play(FadeIn(knight8), FadeIn(attacks8))
+        self.play(FadeIn(knight9), FadeIn(attacks9))
+        self.play(FadeIn(knight10), FadeIn(attacks10))
+        
+    def eightProof(self, fields):
+        self.play(DrawBorderThenFill(fields[5]))
+        knight = SVGMobject('WKnight.svg').scale(0.5).move_to(fields[5][13].get_center())
+        knight2 = SVGMobject('WKnight.svg').scale(0.5).move_to(fields[5][17].get_center())
+        knight3 = SVGMobject('WKnight.svg').scale(0.5).move_to(fields[5][18].get_center())
+        knight4 = SVGMobject('WKnight.svg').scale(0.5).move_to(fields[5][20].get_center())
+        knight5 = SVGMobject('WKnight.svg').scale(0.5).move_to(fields[5][26].get_center())
+        knight6 = SVGMobject('WKnight.svg').scale(0.5).move_to(fields[5][29].get_center())
+        knight7 = SVGMobject('WKnight.svg').scale(0.5).move_to(fields[5][40].get_center())
+        knight8 = SVGMobject('WKnight.svg').scale(0.5).move_to(fields[5][45].get_center())
+        knight9 = SVGMobject('WKnight.svg').scale(0.5).move_to(fields[5][46].get_center())
+        knight10 = SVGMobject('WKnight.svg').scale(0.5).move_to(fields[5][48].get_center())
+        knight11 = SVGMobject('WKnight.svg').scale(0.5).move_to(fields[5][49].get_center())
+        knight12 = SVGMobject('WKnight.svg').scale(0.5).move_to(fields[5][53].get_center())
+        attacks1 = VGroup()
+        attacks2 = VGroup()
+        attacks3 = VGroup()
+        attacks4 = VGroup()
+        attacks5 = VGroup()
+        attacks6 = VGroup()
+        attacks7 = VGroup()
+        attacks8 = VGroup()
+        attacks9 = VGroup()
+        attacks10 = VGroup()
+        attacks11 = VGroup()
+        attacks12 = VGroup()
+        attacks1.add(self.getAttacks(13, 8, fields[5]))
+        attacks2.add(self.getAttacks(17, 8, fields[5]))
+        attacks3.add(self.getAttacks(18, 8, fields[5]))
+        attacks4.add(self.getAttacks(20, 8, fields[5]))
+        attacks5.add(self.getAttacks(26, 8, fields[5]))
+        attacks6.add(self.getAttacks(29, 8, fields[5]))
+        attacks7.add(self.getAttacks(40, 8, fields[5]))
+        attacks8.add(self.getAttacks(45, 8, fields[5]))
+        attacks9.add(self.getAttacks(46, 8, fields[5]))
+        attacks10.add(self.getAttacks(48, 8, fields[5]))
+        attacks11.add(self.getAttacks(49, 8, fields[5]))
+        attacks12.add(self.getAttacks(53, 8, fields[5]))
+        AGroup = VGroup()
+        letters = ['A', 'A', None, None, None, None, 'A', 'A',
+                   None, 'A', None, None, None, None, 'A', None,
+                   None, None, None, None, None, None, None, None,
+                   None, None, None, None, None, None, None, None,
+                   None, None, None, None, None, None, None, None,
+                   None, None, None, None, None, None, None, None, 
+                   None, 'A', None, None, None, None, 'A', None,
+                   'A', 'A', None, None, None, None, 'A', 'A']
+        
+        for index, letter in enumerate(letters):
+            if letter == 'A':
+                AGroup.add(Text(letter).set_color(YELLOW).move_to(fields[5][index].get_center()))
+        self.play(FadeIn(AGroup()))
+        # Show no knight can cover any of these spots
+
+        # Final Board
+        self.play(FadeIn(knight), FadeIn(attacks1))
+        self.play(FadeIn(knight2), FadeIn(attacks2))
+        self.play(FadeIn(knight3), FadeIn(attacks3))
+        self.play(FadeIn(knight4), FadeIn(attacks4))
+        self.play(FadeIn(knight5), FadeIn(attacks5))
+        self.play(FadeIn(knight6), FadeIn(attacks6))
+        self.play(FadeIn(knight7), FadeIn(attacks7))
+        self.play(FadeIn(knight8), FadeIn(attacks8))
+        self.play(FadeIn(knight9), FadeIn(attacks9))
+        self.play(FadeIn(knight10), FadeIn(attacks10))
+        self.play(FadeIn(knight11), FadeIn(attacks11))
+        self.play(FadeIn(knight12), FadeIn(attacks12))
