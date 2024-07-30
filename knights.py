@@ -283,7 +283,19 @@ class array(MovingCameraScene):
         for i, num in enumerate(heatMap1):
             heatMap1Group.add(Integer(number=num).set_color(YELLOW).move_to(fields[2][i].get_center()))
 
-        self.play(FadeIn(heatMap1Group))
+        # Show how heatmap is made
+        tempKnight = SVGMobject('WKnight.svg').scale(0.5).move_to(fields[2][0].get_center())
+        attacks = self.getAttacks(0, 5, fields[2])
+        self.play(FadeIn(tempKnight), FadeIn(attacks))
+        for i in range(64):
+            tempKnight.target.shift(fields[5][i].get_center())
+            attacks = self.getAttacks(i, 8, fields[5])
+            if i != 0:
+                self.play(FadeIn(heatMap1Group[i-1]), MoveToTarget(tempKnight), FadeIn(attacks))
+            else:
+                self.play(FadeIn(heatMap1Group[0]), MoveToTarget(tempKnight), FadeIn(attacks))
+
+        self.play(FadeOut(tempKnight), FadeOut(attacks))
 
         # Show with LaTeX that we need to use the 9 square because
         # 7+7+5+5 < 25 and we cannot do 3 7's because they interfere with each other
@@ -449,7 +461,7 @@ class array(MovingCameraScene):
         attacks = self.getAttacks(0, 7, fields[4])
         self.play(FadeIn(tempKnight), FadeIn(attacks))
         for i in range(49):
-            FadeOut(attacks)
+            self.play(FadeOut(attacks))
             tempKnight.target.shift(fields[4][i].get_center())
             attacks = self.getAttacks(i, 7, fields[4])
             if letters[i] == "A":
@@ -534,7 +546,7 @@ class array(MovingCameraScene):
         attacks = self.getAttacks(0, 8, fields[5])
         self.play(FadeIn(tempKnight), FadeIn(attacks))
         for i in range(64):
-            FadeOut(attacks)
+            self.play(FadeOut(attacks))
             tempKnight.target.shift(fields[5][i].get_center())
             attacks = self.getAttacks(i, 8, fields[5])
             if letters[i] == "A":
