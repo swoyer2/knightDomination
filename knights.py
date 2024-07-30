@@ -386,9 +386,18 @@ class array(MovingCameraScene):
 
         # Show knight range is only 2 units around it so it cannot touch both ends
 
-        # Show same stuff as before but with C and D
+        # Show same stuff as before but with C and D (Just rotate and use symmetry)
 
         # Final board
+        self.play(FadeIn(knight), FadeIn(attacks1))
+        self.play(FadeIn(knight2), FadeIn(attacks2))
+        self.play(FadeIn(knight3), FadeIn(attacks3))
+        self.play(FadeIn(knight4), FadeIn(attacks4))
+        self.play(FadeIn(knight5), FadeIn(attacks5))
+        self.play(FadeIn(knight6), FadeIn(attacks6))
+        self.play(FadeIn(knight7), FadeIn(attacks7))
+        self.play(FadeIn(knight8), FadeIn(attacks8))
+
         
     def sevenProof(self, fields):
         self.play(DrawBorderThenFill(fields[4]))
