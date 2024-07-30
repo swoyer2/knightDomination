@@ -40,7 +40,23 @@ class array(MovingCameraScene):
         #     self.show(allBoards[i], field)
             
         #     self.wait()
+    def getPostionOfAttack(self, index, size, field):
+        moves = [(1,2), (-1,2), (1,-2), (-1,-2), (2,1), (-2,1), (2,-1), (-2,-1)]
+        possibleAttacks = []
+        attacks = []
 
+        cord = self.indexToCord(index, size)
+
+        for move in moves:
+            possibleAttacks.append([cord[0]+move[0], cord[1]+move[1]])
+
+        for attack in possibleAttacks:
+            if attack[0] < 0 or attack[1] < 0 or attack[0] > size-1 or attack[1] > size-1:
+                pass
+            else:
+                attacks.append(self.cordToIndex(attack, size))
+
+        return attacks
     def getAttacks(self, index, size, field):
         moves = [(1,2), (-1,2), (1,-2), (-1,-2), (2,1), (-2,1), (2,-1), (-2,-1)]
         possibleAttacks = []
@@ -407,13 +423,13 @@ class array(MovingCameraScene):
         attacks9.add(self.getAttacks(32, 7, fields[4]))
         attacks10.add(self.getAttacks(33, 7, fields[4]))
         AGroup = VGroup()
-        letters = ['A', 'A', None, None, None, None, 'A',
-                   None, 'A', None, None, None, None, 'A',
-                   None, None, None, None, None, None, None,
-                   None, None, None, None, None, None, None,
-                   None, None, None, None, None, None, None,
-                   'A', None, None, None, None, 'A', None,
-                   'A', None, None, None, None, 'A', 'A']
+        letters = ['A', 'A', None, 1, 1, None, 'A',
+                   None, 'A', 1, 1, 1, None, 'A',
+                   1, 1, 1, 1, 1, 1, None,
+                   1, 1, 1, None, None, 1, 1,
+                   None, 1, 1, 1, 1, 1, 1,
+                   'A', None, 1, 1, 1, 'A', None,
+                   'A', None, 1, 1, None, 'A', 'A']
         
         for index, letter in enumerate(letters):
             if letter == 'A':
@@ -427,6 +443,16 @@ class array(MovingCameraScene):
             FadeOut(attacks)
             tempKnight.target.shift(fields[4][i].get_center())
             attacks = self.getAttacks(i, 7, fields[4])
+            if letters[i] == "A":
+                # emphasize A
+                pass
+            if letters[i] == 1:
+                positions = self.getPostionOfAttack(i, 7, fields[4])
+                for pos in positions:
+                    if letters[pos] == "A":
+                        # Emphasize A
+                        pass
+
             self.play(MoveToTarget(tempKnight), FadeIn(attacks))
 
         self.play(FadeOut(tempKnight), FadeOut(attacks))
