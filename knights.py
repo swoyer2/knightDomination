@@ -25,7 +25,10 @@ class array(MovingCameraScene):
         #self.threeProof(fields)
 
         # Four proof
-        #self.fourProof(fields)
+        # self.fourProof(fields)
+
+        self.play(self.camera.frame.animate.set(width=36))
+        self.eightProof(fields)
 
         # # Shows all board states (Probably final section just for satisfaction)
         # currentField = fields[0]
@@ -270,9 +273,9 @@ class array(MovingCameraScene):
         # 7+7+5+5 < 25 and we cannot do 3 7's because they interfere with each other
 
         # Show 9 square taken
-        knight = SVGMobject('WKnight.svg').scale(0.5).move_to(fields[2][11].get_center())
+        knight = SVGMobject('WKnight.svg').scale(0.5).move_to(fields[2][12].get_center())
         attacks = VGroup()
-        attacks.add(self.getAttacks(11, 5, fields[2]))
+        attacks.add(self.getAttacks(12, 5, fields[2]))
 
         # Update heatmap
         heatMap2 = [3,3,5,3,3,
@@ -301,17 +304,18 @@ class array(MovingCameraScene):
         heatMap3Group = VGroup()
         for i, num in enumerate(heatMap3):
             if num != None:
-                heatMap2Group.add(Integer(number=num).set_color(YELLOW).move_to(fields[2][i].get_center()))
+                heatMap3Group.add(Integer(number=num).set_color(YELLOW).move_to(fields[2][i].get_center()))
 
-        knight2 = SVGMobject('WKnight.svg').scale(0.5).move_to(fields[2][10].get_center())
-        attacks.add(self.getAttacks(10, 5, fields[2]))
+        knight2 = SVGMobject('WKnight.svg').scale(0.5).move_to(fields[2][11].get_center())
+        attacks.add(self.getAttacks(11, 5, fields[2]))
 
         self.play(FadeIn(knight2), FadeIn(attacks), Transform(heatMap1Group, heatMap3Group))
 
         # Show now we need to cover 9 squares with 2 knights, which can only be done with 2 5 squares
         # However it is impossible to have two 5 square knights because they overlap each other
         # Therefore we need 5 knights to cover a 5x5 board
-
+        
+        self.wait()
         self.clear()
 
     def sixProof(self, fields):
@@ -414,7 +418,7 @@ class array(MovingCameraScene):
         for index, letter in enumerate(letters):
             if letter == 'A':
                 AGroup.add(Text(letter).set_color(YELLOW).move_to(fields[4][index].get_center()))
-        self.play(FadeIn(AGroup()))
+        self.play(FadeIn(AGroup))
         # Show no knight can cover any of these spots
 
         # Final Board
@@ -435,14 +439,14 @@ class array(MovingCameraScene):
         knight2 = SVGMobject('WKnight.svg').scale(0.5).move_to(fields[5][17].get_center())
         knight3 = SVGMobject('WKnight.svg').scale(0.5).move_to(fields[5][18].get_center())
         knight4 = SVGMobject('WKnight.svg').scale(0.5).move_to(fields[5][20].get_center())
-        knight5 = SVGMobject('WKnight.svg').scale(0.5).move_to(fields[5][26].get_center())
-        knight6 = SVGMobject('WKnight.svg').scale(0.5).move_to(fields[5][29].get_center())
-        knight7 = SVGMobject('WKnight.svg').scale(0.5).move_to(fields[5][40].get_center())
-        knight8 = SVGMobject('WKnight.svg').scale(0.5).move_to(fields[5][45].get_center())
-        knight9 = SVGMobject('WKnight.svg').scale(0.5).move_to(fields[5][46].get_center())
-        knight10 = SVGMobject('WKnight.svg').scale(0.5).move_to(fields[5][48].get_center())
-        knight11 = SVGMobject('WKnight.svg').scale(0.5).move_to(fields[5][49].get_center())
-        knight12 = SVGMobject('WKnight.svg').scale(0.5).move_to(fields[5][53].get_center())
+        knight5 = SVGMobject('WKnight.svg').scale(0.5).move_to(fields[5][21].get_center())
+        knight6 = SVGMobject('WKnight.svg').scale(0.5).move_to(fields[5][26].get_center())
+        knight7 = SVGMobject('WKnight.svg').scale(0.5).move_to(fields[5][37].get_center())
+        knight8 = SVGMobject('WKnight.svg').scale(0.5).move_to(fields[5][42].get_center())
+        knight9 = SVGMobject('WKnight.svg').scale(0.5).move_to(fields[5][43].get_center())
+        knight10 = SVGMobject('WKnight.svg').scale(0.5).move_to(fields[5][45].get_center())
+        knight11 = SVGMobject('WKnight.svg').scale(0.5).move_to(fields[5][46].get_center())
+        knight12 = SVGMobject('WKnight.svg').scale(0.5).move_to(fields[5][50].get_center())
         attacks1 = VGroup()
         attacks2 = VGroup()
         attacks3 = VGroup()
@@ -459,14 +463,14 @@ class array(MovingCameraScene):
         attacks2.add(self.getAttacks(17, 8, fields[5]))
         attacks3.add(self.getAttacks(18, 8, fields[5]))
         attacks4.add(self.getAttacks(20, 8, fields[5]))
-        attacks5.add(self.getAttacks(26, 8, fields[5]))
-        attacks6.add(self.getAttacks(29, 8, fields[5]))
-        attacks7.add(self.getAttacks(40, 8, fields[5]))
-        attacks8.add(self.getAttacks(45, 8, fields[5]))
-        attacks9.add(self.getAttacks(46, 8, fields[5]))
-        attacks10.add(self.getAttacks(48, 8, fields[5]))
-        attacks11.add(self.getAttacks(49, 8, fields[5]))
-        attacks12.add(self.getAttacks(53, 8, fields[5]))
+        attacks5.add(self.getAttacks(21, 8, fields[5]))
+        attacks6.add(self.getAttacks(26, 8, fields[5]))
+        attacks7.add(self.getAttacks(37, 8, fields[5]))
+        attacks8.add(self.getAttacks(42, 8, fields[5]))
+        attacks9.add(self.getAttacks(43, 8, fields[5]))
+        attacks10.add(self.getAttacks(45, 8, fields[5]))
+        attacks11.add(self.getAttacks(46, 8, fields[5]))
+        attacks12.add(self.getAttacks(50, 8, fields[5]))
         AGroup = VGroup()
         letters = ['A', 'A', None, None, None, None, 'A', 'A',
                    None, 'A', None, None, None, None, 'A', None,
@@ -480,7 +484,7 @@ class array(MovingCameraScene):
         for index, letter in enumerate(letters):
             if letter == 'A':
                 AGroup.add(Text(letter).set_color(YELLOW).move_to(fields[5][index].get_center()))
-        self.play(FadeIn(AGroup()))
+        self.play(FadeIn(AGroup))
         # Show no knight can cover any of these spots
 
         # Final Board
