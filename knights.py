@@ -521,6 +521,26 @@ class array(MovingCameraScene):
                 AGroup.add(Text(letter).set_color(YELLOW).move_to(fields[5][index].get_center()))
         self.play(FadeIn(AGroup))
         # Show no knight can cover any of these spots
+        tempKnight = SVGMobject('WKnight.svg').scale(0.5).move_to(fields[4][0].get_center())
+        attacks = self.getAttacks(0, 7, fields[4])
+        self.play(FadeIn(tempKnight), FadeIn(attacks))
+        for i in range(49):
+            FadeOut(attacks)
+            tempKnight.target.shift(fields[4][i].get_center())
+            attacks = self.getAttacks(i, 7, fields[4])
+            if letters[i] == "A":
+                # emphasize A
+                pass
+            if letters[i] == 1:
+                positions = self.getPostionOfAttack(i, 7, fields[4])
+                for pos in positions:
+                    if letters[pos] == "A":
+                        # Emphasize A
+                        pass
+
+            self.play(MoveToTarget(tempKnight), FadeIn(attacks))
+
+        self.play(FadeOut(tempKnight), FadeOut(attacks))
 
         # Final Board
         self.play(FadeIn(knight), FadeIn(attacks1))
