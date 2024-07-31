@@ -272,6 +272,7 @@ class array(MovingCameraScene):
         # Show contradiction statement, we assume we can do it in 4 knights
         # If that is the case then 4 knights have to cover 25 squares, meaning on average
         # a knight has to cover 6.25 squares.
+        
         self.play(DrawBorderThenFill(fields[2]))
         self.wait()
         heatMap1 = [3,4,5,4,3,
