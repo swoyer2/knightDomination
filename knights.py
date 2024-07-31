@@ -272,7 +272,16 @@ class array(MovingCameraScene):
         # Show contradiction statement, we assume we can do it in 4 knights
         # If that is the case then 4 knights have to cover 25 squares, meaning on average
         # a knight has to cover 6.25 squares.
-        
+        # Create the equation
+        equation = Tex("5 \\times 5 = 25")
+
+        # Center the equation on the screen
+        equation.move_to(ORIGIN)
+
+        # Display the equation on the screen
+        self.play(Write(equation))
+        self.play(FadeOut(equation))
+
         self.play(DrawBorderThenFill(fields[2]))
         self.wait()
         heatMap1 = [3,4,5,4,3,
@@ -298,8 +307,17 @@ class array(MovingCameraScene):
 
         self.play(FadeOut(tempKnight), FadeOut(attacks))
 
+        # We cannot do 3 7's because they interfere with each other
+
         # Show with LaTeX that we need to use the 9 square because
-        # 7+7+5+5 < 25 and we cannot do 3 7's because they interfere with each other
+        # 7+7+5+5 < 25
+        inequality = Tex(r"7 + 7 + 5 + 5 < 25")
+        inequality.move_to(ORIGIN)
+        self.play(Write(inequality))
+        newInequality = Tex(r"24 < 25")
+        self.play(Transform(inequality, newInequality))
+        self.wait()
+        self.play(FadeOut(inequality))
 
         # Show 9 square taken
         knight = SVGMobject('WKnight.svg').scale(0.5).move_to(fields[2][12].get_center())
@@ -319,6 +337,13 @@ class array(MovingCameraScene):
         self.play(FadeIn(knight), FadeIn(attacks), Transform(heatMap1Group, heatMap2Group))
 
         # Show we have to use a 7 square because 9+5+5+5 < 25
+        inequality = Tex(r"9 + 5 + 5 + 5 < 25")
+        inequality.move_to(ORIGIN)
+        self.play(Write(inequality))
+        newInequality = Tex(r"24 < 25")
+        self.play(Transform(inequality, newInequality))
+        self.wait()
+        self.play(FadeOut(inequality))
 
         allGroup = VGroup()
         allGroup.add(heatMap1Group, knight, attacks)
@@ -394,6 +419,7 @@ class array(MovingCameraScene):
                 DGroup.add(Text(letter).set_color(YELLOW).move_to(fields[3][index].get_center()))
             
         # Move knight around to show that a knight cannot touch both A and B
+        tempKnight = SVGMobject('WKnight.svg').scale(0.5).move_to(fields[3][0].get_center())
 
         # Show that no knight can cover more than 2 of the positions A or B
 
@@ -461,10 +487,13 @@ class array(MovingCameraScene):
         tempKnight = SVGMobject('WKnight.svg').scale(0.5).move_to(fields[4][0].get_center())
         tempKnight.generate_target()
         attacks = self.getAttacks(0, 7, fields[4])
-        self.play(FadeIn(tempKnight), FadeIn(attacks))
         for i in range(49):
-            self.play(FadeOut(attacks))
-            tempKnight.target.shift(fields[4][i].get_center())
+            if i:
+                self.play(FadeOut(attacks))
+                tempKnight.target.shift(1.5 * RIGHT)
+                if i % 7 == 0:
+                    tempKnight.target.shift(1.5 * DOWN)
+                    tempKnight.target.shift(1.5 * 7 * LEFT)
             attacks = self.getAttacks(i, 7, fields[4])
             if letters[i] == "A":
                 # emphasize A
