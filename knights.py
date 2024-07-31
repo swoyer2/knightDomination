@@ -458,6 +458,7 @@ class array(MovingCameraScene):
         self.play(FadeIn(AGroup))
         # Show no knight can cover any of these spots
         tempKnight = SVGMobject('WKnight.svg').scale(0.5).move_to(fields[4][0].get_center())
+        tempKnight.generate_target()
         attacks = self.getAttacks(0, 7, fields[4])
         self.play(FadeIn(tempKnight), FadeIn(attacks))
         for i in range(49):
@@ -543,11 +544,15 @@ class array(MovingCameraScene):
         self.play(FadeIn(AGroup))
         # Show no knight can cover any of these spots
         tempKnight = SVGMobject('WKnight.svg').scale(0.5).move_to(fields[5][0].get_center())
+        tempKnight.generate_target()
         attacks = self.getAttacks(0, 8, fields[5])
-        self.play(FadeIn(tempKnight), FadeIn(attacks))
         for i in range(64):
-            self.play(FadeOut(attacks))
-            tempKnight.target.shift(fields[5][i].get_center())
+            if i:
+                self.play(FadeOut(attacks))
+                tempKnight.target.shift(1.5 * RIGHT)
+                if i % 8 == 0:
+                    tempKnight.target.shift(1.5 * DOWN)
+                    tempKnight.target.shift(1.5 * 8 * LEFT)
             attacks = self.getAttacks(i, 8, fields[5])
             if letters[i] == "A":
                 # emphasize A
