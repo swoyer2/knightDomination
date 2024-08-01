@@ -28,7 +28,7 @@ class array(MovingCameraScene):
         # self.fourProof(fields)
 
         self.play(self.camera.frame.animate.set(width=36))
-        self.eightProof(fields)
+        self.fiveProof(fields)
 
         # # Shows all board states (Probably final section just for satisfaction)
         # currentField = fields[0]
@@ -273,10 +273,7 @@ class array(MovingCameraScene):
         # If that is the case then 4 knights have to cover 25 squares, meaning on average
         # a knight has to cover 6.25 squares.
         # Create the equation
-        equation = Tex("5 \\times 5 = 25")
-
-        # Center the equation on the screen
-        equation.move_to(ORIGIN)
+        equation = Tex("5 \times 5 = 25")
 
         # Display the equation on the screen
         self.play(Write(equation))
@@ -297,11 +294,12 @@ class array(MovingCameraScene):
         tempKnight = SVGMobject('WKnight.svg').scale(0.5).move_to(fields[2][0].get_center())
         attacks = self.getAttacks(0, 5, fields[2])
         self.play(FadeIn(tempKnight), FadeIn(attacks))
-        for i in range(64):
-            tempKnight.target.shift(fields[5][i].get_center())
-            attacks = self.getAttacks(i, 8, fields[5])
+        tempKnight.generate_target()
+        for i in range(25):
+            attacks = self.getAttacks(i, 5, fields[2])
             if i != 0:
                 self.play(FadeIn(heatMap1Group[i-1]), MoveToTarget(tempKnight), FadeIn(attacks))
+                tempKnight.target.shift(fields[2][i].get_center())
             else:
                 self.play(FadeIn(heatMap1Group[0]), MoveToTarget(tempKnight), FadeIn(attacks))
 
