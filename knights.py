@@ -270,8 +270,7 @@ class array(MovingCameraScene):
 
     def fiveProof(self, fields):
         # Show contradiction statement, we assume we can do it in 4 knights
-        # If that is the case then 4 knights have to cover 25 squares, meaning on average
-        # a knight has to cover 6.25 squares.
+        # If that is the case then 4 knights have to cover 25 squares
         # Create the equation
         equation = Tex("5 \times 5 = 25")
 
@@ -315,7 +314,7 @@ class array(MovingCameraScene):
         newInequality = Tex(r"24 < 25")
         self.play(Transform(inequality, newInequality))
         self.wait()
-        self.play(FadeOut(inequality))
+        self.play(FadeOut(inequality), FadeOut(newInequality))
 
         # Show 9 square taken
         knight = SVGMobject('WKnight.svg').scale(0.5).move_to(fields[2][12].get_center())
@@ -341,7 +340,7 @@ class array(MovingCameraScene):
         newInequality = Tex(r"24 < 25")
         self.play(Transform(inequality, newInequality))
         self.wait()
-        self.play(FadeOut(inequality))
+        self.play(FadeOut(inequality), FadeOut(newInequality))
 
         allGroup = VGroup()
         allGroup.add(heatMap1Group, knight, attacks)
