@@ -289,18 +289,19 @@ class array(MovingCameraScene):
             heatMap1Group.add(Integer(number=num).set_color(YELLOW).move_to(fields[2][i].get_center()))
 
         # Show how heatmap is made
-        tempKnight = SVGMobject('WKnight.svg').scale(0.5).move_to(fields[2][0].get_center())
-        attacks = self.getAttacks(0, 5, fields[2])
-        self.play(FadeIn(tempKnight), FadeIn(attacks))
+        tempKnight = SVGMobject('WKnight.svg').scale(0.5).move_to(fields[4][0].get_center())
         tempKnight.generate_target()
+        attacks = self.getAttacks(0, 5, fields[2])
         for i in range(25):
-            attacks = self.getAttacks(i, 5, fields[2])
-            if i != 0:
-                self.play(FadeIn(heatMap1Group[i-1]), MoveToTarget(tempKnight), FadeIn(attacks))
-                tempKnight.target.shift(fields[2][i].get_center())
-            else:
-                self.play(FadeIn(heatMap1Group[0]), MoveToTarget(tempKnight), FadeIn(attacks))
+            if i:
+                self.play(FadeOut(attacks))
+                tempKnight.target.shift(1.5 * RIGHT)
+                if i % 5 == 0:
+                    tempKnight.target.shift(1.5 * DOWN)
+                    tempKnight.target.shift(1.5 * 5 * LEFT)
+            attacks = self.getAttacks(i, 7, fields[4])
 
+            self.play(MoveToTarget(tempKnight), FadeIn(attacks), FadeIn(heatMap1Group[i-1]))
         self.play(FadeOut(tempKnight), FadeOut(attacks))
 
         # We cannot do 3 7's because they interfere with each other
