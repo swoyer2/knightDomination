@@ -271,7 +271,6 @@ class array(MovingCameraScene):
     def fiveProof(self, fields):
         # Show contradiction statement, we assume we can do it in 4 knights
         # If that is the case then 4 knights have to cover 25 squares
-        # Create the equation
         equation = Tex("5 \times 5 = 25")
 
         # Display the equation on the screen
