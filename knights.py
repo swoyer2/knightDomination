@@ -71,7 +71,7 @@ class array(MovingCameraScene):
             if attack[0] < 0 or attack[1] < 0 or attack[0] > size-1 or attack[1] > size-1:
                 pass
             else:
-                attacks.add(Circle().scale(0.25).scale(0.5).move_to(field[self.cordToIndex(attack, size)].get_center()))
+                attacks.add(Circle().scale(0.5).move_to(field[self.cordToIndex(attack, size)].get_center()))
 
         return attacks
 
@@ -271,7 +271,7 @@ class array(MovingCameraScene):
     def fiveProof(self, fields):
         # Show contradiction statement, we assume we can do it in 4 knights
         # If that is the case then 4 knights have to cover 25 squares
-        equation = Tex(r"5 \times 5 = 25")
+        equation = MathTex("5 \\cdot 5 = 25").scale(2)
 
         # Display the equation on the screen
         self.play(Write(equation))
@@ -289,9 +289,10 @@ class array(MovingCameraScene):
             heatMap1Group.add(Integer(number=num).set_color(YELLOW).move_to(fields[2][i].get_center()))
 
         # Show how heatmap is made
-        tempKnight = SVGMobject('WKnight.svg').scale(0.5).move_to(fields[4][0].get_center())
+        tempKnight = SVGMobject('WKnight.svg').scale(0.5).move_to(fields[2][0].get_center())
         tempKnight.generate_target()
-        attacks = self.getAttacks(0, 5, fields[2])
+        attacks = self.getAttacks(0, 2, fields[2])
+        self.play(FadeIn(tempKnight))
         for i in range(25):
             if i:
                 self.play(FadeOut(attacks))
@@ -299,19 +300,33 @@ class array(MovingCameraScene):
                 if i % 5 == 0:
                     tempKnight.target.shift(1.5 * DOWN)
                     tempKnight.target.shift(1.5 * 5 * LEFT)
-            attacks = self.getAttacks(i, 7, fields[4])
+            attacks = self.getAttacks(i, 5, fields[2])
 
-            self.play(MoveToTarget(tempKnight), FadeIn(attacks), FadeIn(heatMap1Group[i-1]))
-        self.play(FadeOut(tempKnight), FadeOut(attacks))
+            if i:
+                self.play(MoveToTarget(tempKnight), FadeIn(attacks), FadeIn(heatMap1Group[i-1]))
+            else:
+                self.play(MoveToTarget(tempKnight), FadeIn(attacks), FadeIn(heatMap1Group[0]))
+        self.play(FadeOut(tempKnight), FadeOut(attacks),  FadeIn(heatMap1Group[24]))
 
         # We cannot do 3 7's because they interfere with each other
+        tempKnight1 = SVGMobject('WKnight.svg').scale(0.5).move_to(fields[2][7].get_center())
+        tempKnight2 = SVGMobject('WKnight.svg').scale(0.5).move_to(fields[2][11].get_center())
+        tempKnight3 = SVGMobject('WKnight.svg').scale(0.5).move_to(fields[2][13].get_center())
+        attacks1 = self.getAttacks(7, 5, fields[2])
+        attacks2 = self.getAttacks(11, 5, fields[2]).set_color(BLUE)
+        attacks3 = self.getAttacks(13, 5, fields[2]).set_color(GREEN)
+        self.play(FadeIn(tempKnight1), FadeIn(tempKnight2), FadeIn(tempKnight3))
+        self.play(FadeIn(attacks1), Indicate(tempKnight1))
+        self.play(FadeIn(attacks2), Indicate(tempKnight2))
+        self.play(FadeIn(attacks3), Indicate(tempKnight3))
 
+        self.play(FadeOut(fields[2], attacks1, attacks2, attacks3, tempKnight1, tempKnight2, tempKnight3, heatMap1Group))
         # Show with LaTeX that we need to use the 9 square because
         # 7+7+5+5 < 25
-        inequality = Tex(r"7 + 7 + 5 + 5 < 25")
+        inequality = MathTex("7 + 7 + 5 + 5 < 25").scale(2)
         inequality.move_to(ORIGIN)
         self.play(Write(inequality))
-        newInequality = Tex(r"24 < 25")
+        newInequality = MathTex("24 < 25").scale(2)
         self.play(Transform(inequality, newInequality))
         self.wait()
         self.play(FadeOut(inequality), FadeOut(newInequality))
@@ -331,20 +346,23 @@ class array(MovingCameraScene):
         for i, num in enumerate(heatMap2):
             if num:
                 heatMap2Group.add(Integer(number=num).set_color(YELLOW).move_to(fields[2][i].get_center()))
-        self.play(FadeIn(knight), FadeIn(attacks), Transform(heatMap1Group, heatMap2Group))
+        self.play(FadeIn(fields[2]), FadeIn(heatMap1Group))
+        self.play(FadeIn(knight), FadeIn(attacks))
+        self.play(Transform(heatMap1Group, heatMap2Group))
+        self.play(FadeOut(attacks))
+        self.wait()
 
         # Show we have to use a 7 square because 9+5+5+5 < 25
-        inequality = Tex(r"9 + 5 + 5 + 5 < 25")
-        inequality.move_to(ORIGIN)
+        inequality = MathTex("9 + 5 + 5 + 5 < 25").scale(2)
+        inequality.move_to(RIGHT*10)
         self.play(Write(inequality))
-        newInequality = Tex(r"24 < 25")
+        newInequality = MathTex("24 < 25").scale(2).move_to(RIGHT*10)
         self.play(Transform(inequality, newInequality))
         self.wait()
         self.play(FadeOut(inequality), FadeOut(newInequality))
 
         allGroup = VGroup()
         allGroup.add(heatMap1Group, knight, attacks)
-        self.play(Rotate(allGroup, angle=2*PI))
 
         # Update heatmap
         heatMap3 = [1,1,1,2,3,
@@ -360,11 +378,12 @@ class array(MovingCameraScene):
         knight2 = SVGMobject('WKnight.svg').scale(0.5).move_to(fields[2][11].get_center())
         attacks.add(self.getAttacks(11, 5, fields[2]))
 
-        self.play(FadeIn(knight2), FadeIn(attacks), Transform(heatMap1Group, heatMap3Group))
+        self.play(FadeIn(knight2), Transform(heatMap1Group, heatMap3Group))
 
         # Show now we need to cover 9 squares with 2 knights, which can only be done with 2 5 squares
         # However it is impossible to have two 5 square knights because they overlap each other
         # Therefore we need 5 knights to cover a 5x5 board
+        self.play(FadeIn(attacks))
         
         self.wait()
         self.clear()
