@@ -385,7 +385,30 @@ class array(MovingCameraScene):
         # Therefore we need 5 knights to cover a 5x5 board
         self.play(FadeIn(attacks))
         
+        self.wait(2)
+        nineSquareGroup = VGroup()
+        nineSquareGroup.add(heatMap3Group[4], heatMap3Group[6], heatMap3Group[7], heatMap3Group[10], heatMap3Group[11], heatMap3Group[12], heatMap3Group[14], heatMap3Group[15], heatMap3Group[22])
+
+        self.play(Indicate(nineSquareGroup))
         self.wait()
+        fives = VGroup()
+        fives.add(heatMap3Group[7], heatMap3Group[11], heatMap3Group[15])
+        self.play(Indicate(fives))
+        self.wait()
+        knight3 = SVGMobject('WKnight.svg').scale(0.5).move_to(fields[2][13].get_center())
+        knight4 = SVGMobject('WKnight.svg').scale(0.5).move_to(fields[2][7].get_center())
+        knight3Attacks = self.getAttacks(13, 5, fields[2]).set_color(YELLOW)
+        knight4Attacks = self.getAttacks(7, 5, fields[2]).set_color(BLUE)
+        self.play(FadeIn(knight3), FadeIn(knight3Attacks))
+        self.play(FadeIn(knight4), FadeIn(knight4Attacks))
+        self.wait()
+        knight5 = SVGMobject('WKnight.svg').scale(0.5).move_to(fields[2][17].get_center())
+        knight3Attacksn = self.getAttacks(13, 5, fields[2]).set_color(RED)
+        knight4Attacksn = self.getAttacks(7, 5, fields[2]).set_color(RED)
+        self.play(Transform(knight3Attacks, knight3Attacksn), Transform(knight4Attacks, knight4Attacksn), FadeOut(heatMap3Group))
+        self.play(FadeIn(knight5))
+        self.wait()
+
         self.clear()
 
     def sixProof(self, fields):
