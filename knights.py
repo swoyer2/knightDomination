@@ -10,6 +10,9 @@ board8 = [0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,1,1,0,1,1,0,0,0,0,1,0,0,0,0,0,0,0,0,
 
 allBoards = [board3, board4, board5, board6, board7, board8]
 
+config.background = WHITE
+Mobject.set_default(color=BLACK)
+
 class array(MovingCameraScene):
     def construct(self):
         fields = []
@@ -19,16 +22,30 @@ class array(MovingCameraScene):
             fields.append(field)
 
         # Intro
-        #self.intro(fields)
+        self.intro(fields)
 
         # Three proof
-        #self.threeProof(fields)
+        self.threeProof(fields)
 
         # Four proof
-        # self.fourProof(fields)
+        self.fourProof(fields)
 
-        self.play(self.camera.frame.animate.set(width=36))
+        # Five proof
+        self.play(self.camera.frame.animate.set(width=20))
         self.fiveProof(fields)
+
+        # Six proof
+        self.play(self.camera.frame.animate.set(width=24))
+        self.sixProof(fields)
+
+        # Seven proof
+        self.play(self.camera.frame.animate.set(width=28))
+        self.sevenProof(fields)
+        self.clear()
+
+        # Eight Proof
+        self.play(self.camera.frame.animate.set(width=32))
+        self.eightProof(fields)
 
         # # Shows all board states (Probably final section just for satisfaction)
         # currentField = fields[0]
@@ -105,7 +122,7 @@ class array(MovingCameraScene):
 
         attacks = VGroup()
         attacks.add(self.getAttacks(24, 7, fields[4]))
-        tempCircle = Circle().scale(0.25).scale(0.5).move_to(fields[4][19].get_center())
+        tempCircle = Circle().scale(0.5).move_to(fields[4][19].get_center()).set_color(BLUE)
         self.play(FadeIn(tempCircle))
 
         arrow1 = Arrow(0*LEFT, 3.25*RIGHT, color=YELLOW)
@@ -130,61 +147,69 @@ class array(MovingCameraScene):
         self.play(FadeOut(attacks), Uncreate(knight))
         self.wait()
 
-        allCircles = VGroup()
-        for i in range(49):
-            allCircles.add(Circle().scale(0.25).scale(0.5).move_to(fields[4][i].get_center()))
-        self.play(FadeIn(allCircles))
+        groupOfGroups = [VGroup(),VGroup(),VGroup(),VGroup(),VGroup(),VGroup(),VGroup(),VGroup(),VGroup(),VGroup(),VGroup(),VGroup(),VGroup(),VGroup()]
+
+        for i in range(7):
+            for j in range(7):
+                groupOfGroups[i+j-1].add(Circle().scale(0.5).move_to(fields[4][7*i+j].get_center()))
+        
+        self.play(Create(groupOfGroups[-1]))
+        for group in groupOfGroups[:-1]:
+            self.play(Create(group))
+
         self.wait()
         self.clear()
 
     def threeProof(self, fields):
         # Show 3x3 Proof
-        knight = SVGMobject('WKnight.svg').scale(0.5).move_to(fields[0][4].get_center())
+        knight = SVGMobject('WKnight.svg').scale(0.5).move_to(fields[0][0].get_center())
         attacks = VGroup()
         attacks.add(self.getAttacks(4, 3, fields[0]))
         self.play(DrawBorderThenFill(fields[0]))
-        self.play(FadeIn(knight), FadeIn(attacks))
         
         knight.generate_target()
         knight.target.shift(fields[0][0].get_center())
         threeList = [Integer(number=3).set_color(YELLOW).move_to(fields[0][0].get_center()),
         Integer(number=3).set_color(YELLOW).move_to(fields[0][1].get_center()),
         Integer(number=3).set_color(YELLOW).move_to(fields[0][2].get_center()),
+        Integer(number=3).set_color(YELLOW).move_to(fields[0][3].get_center()),
         Integer(number=3).set_color(YELLOW).move_to(fields[0][5].get_center()),
-        Integer(number=3).set_color(YELLOW).move_to(fields[0][8].get_center()),
-        Integer(number=3).set_color(YELLOW).move_to(fields[0][7].get_center()),
         Integer(number=3).set_color(YELLOW).move_to(fields[0][6].get_center()),
-        Integer(number=3).set_color(YELLOW).move_to(fields[0][3].get_center())]
+        Integer(number=3).set_color(YELLOW).move_to(fields[0][7].get_center()),
+        Integer(number=3).set_color(YELLOW).move_to(fields[0][8].get_center())]
 
         one = Integer(number=1).set_color(YELLOW).move_to(fields[0][4].get_center())
-        self.play(FadeIn(one), MoveToTarget(knight))
-        self.wait()
-        knight.target.shift(RIGHT*3)
-        self.play(FadeIn(threeList[0]), FadeIn(threeList[1]), MoveToTarget(knight))
-        knight.target.shift(DOWN*3)
-        self.play(FadeIn(threeList[2]), FadeIn(threeList[3]), MoveToTarget(knight))
-        knight.target.shift(LEFT*3)
-        self.play(FadeIn(threeList[4]), FadeIn(threeList[5]), MoveToTarget(knight))
-        knight.target.shift(UP*4.5)
-        self.play(FadeIn(threeList[6]), FadeIn(threeList[7]), MoveToTarget(knight))
-        self.wait()
-
-        # Move knight to middle
-        knight.target.shift(DOWN*3, RIGHT*math.sqrt(2))
-        self.play(FadeOut(one), MoveToTarget(knight))
+        positions = [0,1,2,3,4,5,6,7,8]
+        attack = self.getAttacks(0, 3, fields[0])
+        self.play(FadeIn(attack), FadeIn(knight))
+        index = 0
+        for position in positions:
+            newKnight = SVGMobject('WKnight.svg').scale(0.5).move_to(fields[0][position].get_center())
+            newAttacks = self.getAttacks(position, 3, fields[0])
+            if position == 0:
+                index += 1
+            elif position == 5:
+                self.play(Transform(knight, newKnight), Transform(attack, newAttacks), FadeIn(one))
+            else:
+                self.play(Transform(knight, newKnight), Transform(attack, newAttacks), FadeIn(threeList[index-1]))
+                index += 1
+        
+        self.play(FadeOut(knight), FadeOut(attack), FadeIn(threeList[7]))
+        middleKnight = SVGMobject('WKnight.svg').scale(0.5).move_to(fields[0][4].get_center())
+        middleAttacks = self.getAttacks(4, 3, fields[0])
+        self.play(FadeIn(middleKnight), FadeIn(middleAttacks), FadeOut(one))
         
         # Show number count 8 squares left
         equation = MathTex(r"8 \neq 3+3").move_to(LEFT*5)
         equation2 = MathTex(r"8 \neq 6").move_to(LEFT*5)
-        self.play(Indicate(threeList[0]), Indicate(threeList[1]), Indicate(threeList[2]), Indicate(threeList[3]), 
-                Indicate(threeList[4]), Indicate(threeList[5]), Indicate(threeList[6]), Indicate(threeList[7]))
+        threeGroup = VGroup()
+        for ele in threeList:
+            threeGroup.add(ele)
+        #self.play(Indicate(threeGroup))
         self.wait()
         knight2 = SVGMobject('WKnight.svg').scale(0.5).move_to(fields[0][6].get_center())
         knight3 = SVGMobject('WKnight.svg').scale(0.5).move_to(fields[0][7].get_center())
         knight4 = SVGMobject('WKnight.svg').scale(0.5).move_to(fields[0][8].get_center())
-        threeGroup = VGroup()
-        for ele in threeList:
-            threeGroup.add(ele)
         attack2 = VGroup()
         attack2.add(self.getAttacks(6, 3, fields[0]))
         attack3 = VGroup()
@@ -353,10 +378,10 @@ class array(MovingCameraScene):
         self.wait()
 
         # Show we have to use a 7 square because 9+5+5+5 < 25
-        inequality = MathTex("9 + 5 + 5 + 5 < 25").scale(2)
-        inequality.move_to(RIGHT*10)
+        inequality = MathTex("9 + 5 + 5 + 5 < 25").scale(1)
+        inequality.move_to(RIGHT*7)
         self.play(Write(inequality))
-        newInequality = MathTex("24 < 25").scale(2).move_to(RIGHT*10)
+        newInequality = MathTex("24 < 25").scale(1).move_to(RIGHT*7)
         self.play(Transform(inequality, newInequality))
         self.wait()
         self.play(FadeOut(inequality), FadeOut(newInequality))
@@ -442,10 +467,10 @@ class array(MovingCameraScene):
         CGroup = VGroup()
         DGroup = VGroup()
         letters = ['A','B','A','B','A','B',
-                   None, None, None, None, None,
-                   None, None, None, None, None,
-                   None, None, None, None, None,
-                   None, None, None, None, None,
+                   None, None, None, None, None, None,
+                   None, None, None, None, None, None,
+                   None, None, None, None, None, None,
+                   None, None, None, None, None, None,
                    'D','C','D','C','D','C']
         for index, letter in enumerate(letters):
             if letter == 'A':
@@ -458,15 +483,27 @@ class array(MovingCameraScene):
                 DGroup.add(Text(letter).set_color(YELLOW).move_to(fields[3][index].get_center()))
             
         # Move knight around to show that a knight cannot touch both A and B
+        self.play(FadeIn(AGroup), FadeIn(BGroup))
         tempKnight = SVGMobject('WKnight.svg').scale(0.5).move_to(fields[3][0].get_center())
+        attacks = self.getAttacks(0, 6, fields[3])
+        self.play(FadeIn(tempKnight), FadeIn(attacks))
+
+        positions = [4,9,11,14,15,16,21,23]
+        for position in positions:
+            newKnight = SVGMobject('WKnight.svg').scale(0.5).move_to(fields[3][position].get_center())
+            newAttacks = self.getAttacks(position, 6, fields[3])
+            self.play(Transform(tempKnight, newKnight), Transform(attacks, newAttacks))
 
         # Show that no knight can cover more than 2 of the positions A or B
+        # I think this is already shown just explain
 
         # Show knight range is only 2 units around it so it cannot touch both ends
-
+        self.play(FadeIn(CGroup), FadeIn(DGroup))
         # Show same stuff as before but with C and D (Just rotate and use symmetry)
+        self.play(Rotate(fields[3], PI))
 
         # Final board
+        self.play(FadeOut(tempKnight), FadeOut(attacks))
         self.play(FadeIn(knight), FadeIn(attacks1))
         self.play(FadeIn(knight2), FadeIn(attacks2))
         self.play(FadeIn(knight3), FadeIn(attacks3))
@@ -475,6 +512,7 @@ class array(MovingCameraScene):
         self.play(FadeIn(knight6), FadeIn(attacks6))
         self.play(FadeIn(knight7), FadeIn(attacks7))
         self.play(FadeIn(knight8), FadeIn(attacks8))
+        self.clear()
 
         
     def sevenProof(self, fields):
@@ -524,6 +562,7 @@ class array(MovingCameraScene):
         self.play(FadeIn(AGroup))
         # Show no knight can cover any of these spots
         tempKnight = SVGMobject('WKnight.svg').scale(0.5).move_to(fields[4][0].get_center())
+        self.play(FadeIn(tempKnight))
         tempKnight.generate_target()
         attacks = self.getAttacks(0, 7, fields[4])
         for i in range(49):
