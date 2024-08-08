@@ -1,6 +1,13 @@
 from manim import *
 import math
 
+strokeColor = ManimColor.from_hex('#f2d7ee')
+backgroundColor = ManimColor.from_hex('#0E103D')
+otherColor = ManimColor.from_hex('#FFD972')
+otherColor2 = ManimColor.from_hex('#DB5A42')
+otherColor3 = ManimColor.from_hex('#66D7D1')
+
+
 board3 = [0, 0, 0, 0, 1, 0, 1, 1, 1]
 board4 = [0,0,0,0,0,1,1,0,0,1,1,0,0,0,0,0]
 board5 = [0,0,0,0,0,0,0,1,0,0,0,1,1,1,0,0,0,1,0,0,0,0,0,0,0]
@@ -10,8 +17,8 @@ board8 = [0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,1,1,0,1,1,0,0,0,0,1,0,0,0,0,0,0,0,0,
 
 allBoards = [board3, board4, board5, board6, board7, board8]
 
-config.background = WHITE
-Mobject.set_default(color=BLACK)
+config.background_color = backgroundColor
+VMobject.set_default(color=otherColor, stroke_color=strokeColor, fill_color= otherColor2)
 
 class array(MovingCameraScene):
     def construct(self):
@@ -122,11 +129,11 @@ class array(MovingCameraScene):
 
         attacks = VGroup()
         attacks.add(self.getAttacks(24, 7, fields[4]))
-        tempCircle = Circle().scale(0.5).move_to(fields[4][19].get_center()).set_color(BLUE)
+        tempCircle = Circle().scale(0.5).move_to(fields[4][19].get_center()).set_color(otherColor)
         self.play(FadeIn(tempCircle))
 
-        arrow1 = Arrow(0*LEFT, 3.25*RIGHT, color=YELLOW)
-        arrow2 = Arrow(arrow1.get_end(), arrow1.get_end()+1.5*UP, color=YELLOW)
+        arrow1 = Arrow(0*LEFT, 3.25*RIGHT, color=otherColor)
+        arrow2 = Arrow(arrow1.get_end(), arrow1.get_end()+1.5*UP, color=otherColor)
         self.play(GrowArrow(arrow1))
         self.play(GrowArrow(arrow2))
 
@@ -169,16 +176,16 @@ class array(MovingCameraScene):
         
         knight.generate_target()
         knight.target.shift(fields[0][0].get_center())
-        threeList = [Integer(number=3).set_color(YELLOW).move_to(fields[0][0].get_center()),
-        Integer(number=3).set_color(YELLOW).move_to(fields[0][1].get_center()),
-        Integer(number=3).set_color(YELLOW).move_to(fields[0][2].get_center()),
-        Integer(number=3).set_color(YELLOW).move_to(fields[0][3].get_center()),
-        Integer(number=3).set_color(YELLOW).move_to(fields[0][5].get_center()),
-        Integer(number=3).set_color(YELLOW).move_to(fields[0][6].get_center()),
-        Integer(number=3).set_color(YELLOW).move_to(fields[0][7].get_center()),
-        Integer(number=3).set_color(YELLOW).move_to(fields[0][8].get_center())]
+        threeList = [Integer(number=3).set_color(otherColor).move_to(fields[0][0].get_center()),
+        Integer(number=3).set_color(otherColor).move_to(fields[0][1].get_center()),
+        Integer(number=3).set_color(otherColor).move_to(fields[0][2].get_center()),
+        Integer(number=3).set_color(otherColor).move_to(fields[0][3].get_center()),
+        Integer(number=3).set_color(otherColor).move_to(fields[0][5].get_center()),
+        Integer(number=3).set_color(otherColor).move_to(fields[0][6].get_center()),
+        Integer(number=3).set_color(otherColor).move_to(fields[0][7].get_center()),
+        Integer(number=3).set_color(otherColor).move_to(fields[0][8].get_center())]
 
-        one = Integer(number=1).set_color(YELLOW).move_to(fields[0][4].get_center())
+        one = Integer(number=1).set_color(otherColor).move_to(fields[0][4].get_center())
         positions = [0,1,2,3,4,5,6,7,8]
         attack = self.getAttacks(0, 3, fields[0])
         self.play(FadeIn(attack), FadeIn(knight))
@@ -242,8 +249,8 @@ class array(MovingCameraScene):
         attacks4.add(self.getAttacks(10, 4, fields[1]))
         self.play(DrawBorderThenFill(fields[1]))
 
-        surrounding1, surrounding2 = SurroundingRectangle(fields[1][0], color=YELLOW, buff=MED_LARGE_BUFF).scale(0.6), SurroundingRectangle(fields[1][15], color=YELLOW, buff=MED_LARGE_BUFF).scale(0.6)
-        surrounding3, surrounding4 = SurroundingRectangle(fields[1][3], color=YELLOW, buff=MED_LARGE_BUFF).scale(0.6), SurroundingRectangle(fields[1][12], color=YELLOW, buff=MED_LARGE_BUFF).scale(0.6)
+        surrounding1, surrounding2 = SurroundingRectangle(fields[1][0], color=otherColor, buff=MED_LARGE_BUFF).scale(0.6), SurroundingRectangle(fields[1][15], color=otherColor, buff=MED_LARGE_BUFF).scale(0.6)
+        surrounding3, surrounding4 = SurroundingRectangle(fields[1][3], color=otherColor, buff=MED_LARGE_BUFF).scale(0.6), SurroundingRectangle(fields[1][12], color=otherColor, buff=MED_LARGE_BUFF).scale(0.6)
         self.play(Create(surrounding1), Create(surrounding2))
         self.wait()
         self.play(FadeIn(knight), FadeIn(knight2), FadeIn(attacks1), FadeIn(attacks2))
@@ -283,7 +290,7 @@ class array(MovingCameraScene):
         attacks3.add(self.getAttacks(10, 4, fields[1]))
         self.play(DrawBorderThenFill(fields[1]))
         self.wait()
-        three = fields[0].shift(LEFT*.76).shift(UP*.76).set_color(YELLOW)
+        three = fields[0].shift(LEFT*.76).shift(UP*.76).set_color(otherColor)
         self.play(Create(three))
         self.wait()
         self.play(FadeIn(knight), FadeIn(attacks1))
@@ -311,7 +318,7 @@ class array(MovingCameraScene):
                       3,4,5,4,3]
         heatMap1Group = VGroup()
         for i, num in enumerate(heatMap1):
-            heatMap1Group.add(Integer(number=num).set_color(YELLOW).move_to(fields[2][i].get_center()))
+            heatMap1Group.add(Integer(number=num).set_color(otherColor).move_to(fields[2][i].get_center()))
 
         # Show how heatmap is made
         tempKnight = SVGMobject('WKnight.svg').scale(0.5).move_to(fields[2][0].get_center())
@@ -338,8 +345,8 @@ class array(MovingCameraScene):
         tempKnight2 = SVGMobject('WKnight.svg').scale(0.5).move_to(fields[2][11].get_center())
         tempKnight3 = SVGMobject('WKnight.svg').scale(0.5).move_to(fields[2][13].get_center())
         attacks1 = self.getAttacks(7, 5, fields[2])
-        attacks2 = self.getAttacks(11, 5, fields[2]).set_color(BLUE)
-        attacks3 = self.getAttacks(13, 5, fields[2]).set_color(GREEN)
+        attacks2 = self.getAttacks(11, 5, fields[2]).set_color(otherColor2)
+        attacks3 = self.getAttacks(13, 5, fields[2]).set_color(otherColor3)
         self.play(FadeIn(tempKnight1), FadeIn(tempKnight2), FadeIn(tempKnight3))
         self.play(FadeIn(attacks1), Indicate(tempKnight1))
         self.play(FadeIn(attacks2), Indicate(tempKnight2))
@@ -370,7 +377,7 @@ class array(MovingCameraScene):
         heatMap2Group = VGroup()
         for i, num in enumerate(heatMap2):
             if num:
-                heatMap2Group.add(Integer(number=num).set_color(YELLOW).move_to(fields[2][i].get_center()))
+                heatMap2Group.add(Integer(number=num).set_color(otherColor).move_to(fields[2][i].get_center()))
         self.play(FadeIn(fields[2]), FadeIn(heatMap1Group))
         self.play(FadeIn(knight), FadeIn(attacks))
         self.play(Transform(heatMap1Group, heatMap2Group))
@@ -398,7 +405,7 @@ class array(MovingCameraScene):
         heatMap3Group = VGroup()
         for i, num in enumerate(heatMap3):
             if num != None:
-                heatMap3Group.add(Integer(number=num).set_color(YELLOW).move_to(fields[2][i].get_center()))
+                heatMap3Group.add(Integer(number=num).set_color(otherColor).move_to(fields[2][i].get_center()))
 
         knight2 = SVGMobject('WKnight.svg').scale(0.5).move_to(fields[2][11].get_center())
         attacks.add(self.getAttacks(11, 5, fields[2]))
@@ -422,14 +429,14 @@ class array(MovingCameraScene):
         self.wait()
         knight3 = SVGMobject('WKnight.svg').scale(0.5).move_to(fields[2][13].get_center())
         knight4 = SVGMobject('WKnight.svg').scale(0.5).move_to(fields[2][7].get_center())
-        knight3Attacks = self.getAttacks(13, 5, fields[2]).set_color(YELLOW)
-        knight4Attacks = self.getAttacks(7, 5, fields[2]).set_color(BLUE)
+        knight3Attacks = self.getAttacks(13, 5, fields[2]).set_color(otherColor)
+        knight4Attacks = self.getAttacks(7, 5, fields[2]).set_color(otherColor2)
         self.play(FadeIn(knight3), FadeIn(knight3Attacks))
         self.play(FadeIn(knight4), FadeIn(knight4Attacks))
         self.wait()
         knight5 = SVGMobject('WKnight.svg').scale(0.5).move_to(fields[2][17].get_center())
-        knight3Attacksn = self.getAttacks(13, 5, fields[2]).set_color(RED)
-        knight4Attacksn = self.getAttacks(7, 5, fields[2]).set_color(RED)
+        knight3Attacksn = self.getAttacks(13, 5, fields[2]).set_color(otherColor)
+        knight4Attacksn = self.getAttacks(7, 5, fields[2]).set_color(otherColor)
         self.play(Transform(knight3Attacks, knight3Attacksn), Transform(knight4Attacks, knight4Attacksn), FadeOut(heatMap3Group))
         self.play(FadeIn(knight5))
         self.wait()
@@ -474,13 +481,13 @@ class array(MovingCameraScene):
                    'D','C','D','C','D','C']
         for index, letter in enumerate(letters):
             if letter == 'A':
-                AGroup.add(Text(letter).set_color(YELLOW).move_to(fields[3][index].get_center()))
+                AGroup.add(Text(letter).set_color(otherColor).move_to(fields[3][index].get_center()))
             if letter == 'B':
-                BGroup.add(Text(letter).set_color(YELLOW).move_to(fields[3][index].get_center()))
+                BGroup.add(Text(letter).set_color(otherColor).move_to(fields[3][index].get_center()))
             if letter == 'C':
-                CGroup.add(Text(letter).set_color(YELLOW).move_to(fields[3][index].get_center()))
+                CGroup.add(Text(letter).set_color(otherColor).move_to(fields[3][index].get_center()))
             if letter == 'D':
-                DGroup.add(Text(letter).set_color(YELLOW).move_to(fields[3][index].get_center()))
+                DGroup.add(Text(letter).set_color(otherColor).move_to(fields[3][index].get_center()))
             
         # Move knight around to show that a knight cannot touch both A and B
         self.play(FadeIn(AGroup), FadeIn(BGroup))
@@ -558,7 +565,7 @@ class array(MovingCameraScene):
         
         for index, letter in enumerate(letters):
             if letter == 'A':
-                AGroup.add(Text(letter).set_color(YELLOW).move_to(fields[4][index].get_center()))
+                AGroup.add(Text(letter).set_color(otherColor).move_to(fields[4][index].get_center()))
         self.play(FadeIn(AGroup))
         # Show no knight can cover any of these spots
         tempKnight = SVGMobject('WKnight.svg').scale(0.5).move_to(fields[4][0].get_center())
@@ -648,7 +655,7 @@ class array(MovingCameraScene):
         
         for index, letter in enumerate(letters):
             if letter == 'A':
-                AGroup.add(Text(letter).set_color(YELLOW).move_to(fields[5][index].get_center()))
+                AGroup.add(Text(letter).set_color(otherColor).move_to(fields[5][index].get_center()))
         self.play(FadeIn(AGroup))
         # Show no knight can cover any of these spots
         tempKnight = SVGMobject('WKnight.svg').scale(0.5).move_to(fields[5][0].get_center())
