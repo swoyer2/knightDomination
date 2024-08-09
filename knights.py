@@ -24,46 +24,47 @@ class array(MovingCameraScene):
     def construct(self):
         fields = []
         for board in allBoards:
+
             field = VGroup(*[Square(side_length=1.5) for _ in range(len(board))])
             field.arrange_in_grid(rows=int(math.sqrt(len(board))),cols=int(math.sqrt(len(board))),buff=0)
             fields.append(field)
 
-        # Intro
-        self.intro(fields)
+        # # Intro
+        # self.intro(fields)
 
-        # Three proof
-        self.threeProof(fields)
+        # # Three proof
+        # self.threeProof(fields)
 
-        # Four proof
-        self.fourProof(fields)
+        # # Four proof
+        # self.fourProof(fields)
 
-        # Five proof
-        self.play(self.camera.frame.animate.set(width=20))
-        self.fiveProof(fields)
+        # # Five proof
+        # self.play(self.camera.frame.animate.set(width=20))
+        # self.fiveProof(fields)
 
-        # Six proof
-        self.play(self.camera.frame.animate.set(width=24))
-        self.sixProof(fields)
+        # # Six proof
+        # self.play(self.camera.frame.animate.set(width=24))
+        # self.sixProof(fields)
 
-        # Seven proof
-        self.play(self.camera.frame.animate.set(width=28))
-        self.sevenProof(fields)
-        self.clear()
+        # # Seven proof
+        # self.play(self.camera.frame.animate.set(width=28))
+        # self.sevenProof(fields)
+        # self.clear()
 
-        # Eight Proof
-        self.play(self.camera.frame.animate.set(width=32))
-        self.eightProof(fields)
+        # # Eight Proof
+        # self.play(self.camera.frame.animate.set(width=32))
+        # self.eightProof(fields)
 
-        # # Shows all board states (Probably final section just for satisfaction)
-        # currentField = fields[0]
+        # # # Shows all board states (Probably final section just for satisfaction)
+        # # currentField = fields[0]
 
-        # for i, field in enumerate(fields):
-        #     self.play(Transform(currentField, field))
-        #     self.play(self.camera.frame.animate.set(width=field.width * 3.0))
+        # # for i, field in enumerate(fields):
+        # #     self.play(Transform(currentField, field))
+        # #     self.play(self.camera.frame.animate.set(width=field.width * 3.0))
 
-        #     self.show(allBoards[i], field)
+        # #     self.show(allBoards[i], field)
             
-        #     self.wait()
+        # #     self.wait()
     def getPostionOfAttack(self, index, size, field):
         moves = [(1,2), (-1,2), (1,-2), (-1,-2), (2,1), (-2,1), (2,-1), (-2,-1)]
         possibleAttacks = []
